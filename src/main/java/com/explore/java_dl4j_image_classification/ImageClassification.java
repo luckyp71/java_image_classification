@@ -96,7 +96,10 @@ public class ImageClassification {
 			evalDataSet.setLabelNames(labelList);
 			String expectedResult = evalDataSet.getLabelName(0);
 			List<String> predict = model.predict(evalDataSet);
-			String modelResult = predict.get(0);
+			String modelResult = predict.get(0); //Predict the first image (image at index 0) inside
+												//src/main/resources/evaluation/bee folder, 
+												//change or replace the images in this folder with bee or spider image
+												//if you want to.  
 
 			System.out.print("\nFor a single example that is labeled " + expectedResult + " the model predicted as "
 					+ modelResult + "\n\n");
