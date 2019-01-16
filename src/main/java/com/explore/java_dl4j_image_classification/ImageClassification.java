@@ -42,16 +42,16 @@ import org.deeplearning4j.util.ModelSerializer;
 public class ImageClassification {
 
 	// Data train path -> data will be used to feed the model during training
-	private static final File trainPath = new File("src\\main\\resources\\dataset\\train\\");
+	private static final File trainPath = new File("classes\\dataset\\train\\");
 
 	// Data test path -> data will be used to evaluate the model for each iteration during training
-	private static final File testPath = new File("src\\main\\resources\\dataset\\test\\");
+	private static final File testPath = new File("classes\\dataset\\test\\");
 
 	// Data evaluation path -> data will be used to evaluate the model after the model has been built
-	private static final File evaluationPath = new File("src\\main\\resources\\dataset\\evaluation\\");
+	private static final File evaluationPath = new File("classes\\dataset\\evaluation\\");
 
 	// Model path
-	private static File modelPath = new File("src\\main\\resources\\model\\image_classification_model.zip");
+	private static File modelPath = new File("classes\\model\\image_classification_model.zip");
 
 	public static void main(String[] args) throws Exception {
 		int height = 28;
@@ -80,6 +80,8 @@ public class ImageClassification {
 
 		if (modelPath.exists()) {
 			System.out.println("Model found!\nLoad model.....");
+			FileWriter fileWriter = new FileWriter("D://evaluation_output.txt");
+			
 			// Set params for evaluation data
 			MultiLayerNetwork model = ModelSerializer.restoreMultiLayerNetwork(modelPath);
 			model.getLabels();
@@ -97,12 +99,15 @@ public class ImageClassification {
 			String expectedResult = evalDataSet.getLabelName(0);
 			List<String> predict = model.predict(evalDataSet);
 			String modelResult = predict.get(0); //Predict the first image (image at index 0) inside
-												//src/main/resources/evaluation/bee folder, 
-												//change or replace the images in this folder with bee or spider image
-												//if you want to.  
-
-			System.out.print("\nFor a single example that is labeled " + expectedResult + " the model predicted as "
-					+ modelResult + "\n\n");
+												//target/classes/dataset/evaluation/bee folder, 
+												//change or replace the images in this folder with bee or spider image,
+												//just if you want to.  
+			
+			String evaluationOutput = "\nFor a single example that is labeled " + expectedResult + " the model predicted as "
+					+ modelResult + "\n\n";
+			System.out.print(evaluationOutput);
+			fileWriter.write(evaluationOutput);
+			fileWriter.close();
 
 		} else {
 			System.out.println("Model is not found!\nCreate model.....");
